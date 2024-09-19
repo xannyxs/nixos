@@ -2,68 +2,43 @@
 
 * {
   border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  min-height: 0;
 }
 
-window.bottom_bar#waybar {
-  background-color: alpha(@base, 0.7);
-  border-top: solid alpha(@surface1, 0.7) 2;
+window#waybar {
+  background: transparent;
 }
 
-window.top_bar#waybar {
-  background-color: alpha(@base, 0.7);
-  border-bottom: solid alpha(@surface1, 0.7) 2;
+window>box {
+  margin: 5px;
+  background: transparent;
 }
 
-window.left_bar#waybar {
-  background-color: alpha(@base, 0.7);
-  border-top: solid alpha(@surface1, 0.7) 2;
-  border-right: solid alpha(@surface1, 0.7) 2;
-  border-bottom: solid alpha(@surface1, 0.7) 2;
-  border-radius: 0 15 15 0;
-}
-
-window.bottom_bar .modules-center {
+#workspaces,
+#mode,
+#clock,
+#pulseaudio,
+#bluetooth,
+#network,
+#mpd,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#custom-media,
+#tray,
+#idle_inhibitor,
+#custom-logout_menu,
+#custom-power,
+#custom-pacman {
+  padding: 0 10px;
+  border-radius: 20px;
   background-color: alpha(@surface1, 0.7);
-  color: @green;
-  border-radius: 15;
-  padding-left: 20;
-  padding-right: 20;
-  margin-top: 5;
-  margin-bottom: 5;
-}
-
-window.bottom_bar .modules-left {
-  background-color: alpha(@surface1, 0.7);
-  border-radius: 0 15 15 0;
-  padding-left: 20;
-  padding-right: 20;
-  margin-top: 5;
-  margin-bottom: 5;
-}
-
-window.bottom_bar .modules-right {
-  background-color: alpha(@surface1, 0.7);
-  border-radius: 15 0 0 15;
-  padding-left: 20;
-  padding-right: 20;
-  margin-top: 5;
-  margin-bottom: 5;
-}
-
-#user {
-  padding-left: 10;
-}
-
-#language {
-  padding-left: 15;
-}
-
-#keyboard-state label.locked {
-  color: @yellow;
-}
-
-#keyboard-state label {
-  color: @subtext0;
+  color: #000;
+  margin: 7px 0;
 }
 
 #workspaces {
@@ -94,33 +69,8 @@ window.bottom_bar .modules-right {
   margin-bottom: 5;
 }
 
-window.top_bar .modules-center {
-  font-weight: bold;
-  background-color: alpha(@surface1, 0.7);
-  color: @peach;
-  border-radius: 15;
-  padding-left: 20;
-  padding-right: 20;
-  margin-top: 5;
-  margin-bottom: 5;
-}
-
-#custom-separator {
-  color: @green;
-}
-
-#custom-separator_dot {
-  color: @green;
-}
-
-#clock.time {
-    color: #cba6f7;
-    font-weight: bold;
-}
-
-#clock.date {
-    color: #cba6f7;
-    font-weight: bold;
+#clock {
+  color: @blue;
 }
 
 #clock.week {
@@ -133,15 +83,6 @@ window.top_bar .modules-center {
 
 #clock.calendar {
   color: @mauve;
-}
-
-#bluetooth {
-  background-color: alpha(@surface1, 0.7);
-  border-radius: 15;
-  padding-left: 15;
-  padding-right: 15;
-  margin-top: 5;
-  margin-bottom: 5;
 }
 
 #bluetooth.disabled {
@@ -157,17 +98,6 @@ window.top_bar .modules-center {
   color: @sapphire;
 }
 
-#network {
-  background-color: alpha(@surface1, 0.7);
-  border-radius: 15;
-  padding-left: 15;
-  padding-right: 15;
-  margin-left: 2;
-  margin-right: 2;
-  margin-top: 5;
-  margin-bottom: 5;
-}
-
 #network.disabled {
   background-color: alpha(@surface0, 0.7);
   color: @subtext0;
@@ -179,18 +109,6 @@ window.top_bar .modules-center {
 
 #network.wifi {
   color: @teal;
-}
-
-#idle_inhibitor {
-  margin-right: 2;
-}
-
-#idle_inhibitor.deactivated {
-  color: @subtext0;
-}
-
-#custom-dunst.off {
-  color: @subtext0;
 }
 
 #custom-airplane_mode {
@@ -207,10 +125,6 @@ window.top_bar .modules-center {
 
 #custom-night_mode.off {
   color: @subtext0;
-}
-
-#custom-dunst {
-  margin-right: 2;
 }
 
 #custom-media.Paused {
@@ -244,22 +158,6 @@ window.top_bar .modules-center {
 
 #custom-logout_menu {
   color: @red;
-  background-color: alpha(@surface1, 0.7);
-  border-radius: 15 0 0 15;
-  padding-left: 10;
-  padding-right: 5;
-  margin-top: 5;
-  margin-bottom: 5;
-}
-
-window.left_bar .modules-center {
-  background-color: alpha(@surface1, 0.7);
-  border-radius: 0 15 15 0;
-  margin-right: 5;
-  margin-top: 15;
-  margin-bottom: 15;
-  padding-top: 5;
-  padding-bottom: 5;
 }
 
 #taskbar {
@@ -271,12 +169,6 @@ window.left_bar .modules-center {
 #taskbar button.active {
   background-color: alpha(@surface1, 0.7);
   border-radius: 10;
-}
-
-#tray {
-  margin-bottom: 10;
-  margin-right: 10;
-  margin-left: 10;
 }
 
 #tray>.needs-attention {

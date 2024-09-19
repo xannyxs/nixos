@@ -10,7 +10,7 @@ alias conf="z ~/.config"
 alias nixos="z /etc/nixos"
 alias store="z /nix/store"
 alias nswitch="sudo nixos-rebuild switch --flake /etc/nixos"
-alias nswitchu="sudo nixos-rebuild switch --flake /etc/nixos#isitreal-laptop --update-input nixpkgs --update-input rust-overlay --commit-lock-file --upgrade"
+alias nswitchu="sudo nixos-rebuild switch --flake /etc/nixos#xannyx --update-input nixpkgs --commit-lock-file --upgrade"
 alias nau="sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos"
 alias nsgc="sudo nix-store --gc"
 alias ngc="sudo nix-collect-garbage -d"
@@ -86,7 +86,11 @@ alias reload='source ~/.config/fish/config.fish'
 
 # 13. Fish greeting (optional)
 function fish_greeting
-    echo "Welcome to Fish shell! 🐠"
+    set_color blue; echo " Distro:  NixOS"
+    set_color white; echo " Langs:   Rust  JS 󰛦 TS  Lua  C"
+    set_color green; echo " Shell:  󰈺 Fish"
+    set_color yellow; echo "󰟶 Mood:   👨‍💻"
+    set_color cyan; figlet random -f binary
 end
 
 # 14. Colorful man pages
@@ -102,3 +106,4 @@ function mkcd
     mkdir -p $argv[1] && cd $argv[1]
 end
 
+starship init fish | source
