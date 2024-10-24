@@ -6,7 +6,7 @@
 
 {
   nixpkgs.config.allowUnfree = true;
-  programs.neovim.defaultEditor = true; 
+  programs.neovim.defaultEditor = true;
 
   programs.fish.enable = true;
 
@@ -14,8 +14,6 @@
     enable = true;
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim
     neovim

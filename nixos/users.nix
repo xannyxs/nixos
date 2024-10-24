@@ -29,10 +29,6 @@
       telegram-desktop
       tor-browser
       obs-studio
-      # (pkgs.writeShellScriptBin "obs" ''
-      # export GDK_BACKEND=x11
-      #   ${pkgs.obs-studio}/bin/obs "$@"
-      # '')
       mixxx
       mongodb-compass
     ];
