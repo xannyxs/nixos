@@ -14,6 +14,15 @@
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.tumbler.enable = true;
 
+  programs.nix-ld.enable = true;
+
+  # Mullvad
+  networking.resolvconf.enable = false;
+  services.resolved.enable = true;
+  networking.wireguard.enable = true;
+  networking.iproute2.enable = true;
+  services.mullvad-vpn.enable = true;
+
   programs.zsh.enable = true;
 
   programs.java = {
@@ -28,13 +37,20 @@
     hunspellDicts.nl_nl
     hunspellDicts.en_GB-ize
 
-    davinci-resolve-studio
+    # davinci-resolve-studio
     home-manager
+    wireshark
+
+    mullvad
+    mullvad-vpn
+    protonvpn-gui
 
     poweralertd
     playerctl
-    jdk21_headless
-    jdk17_headless
+    # jdk21_headless
+    # jdk17_headless
+    jdk8
+
     # psmisc #- A set of some small useful utilities that use the proc filesystem
     # grim # - Screenshot utility for Wayland
     # slurp # - Select a region in Wayland compositors

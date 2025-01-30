@@ -2,17 +2,23 @@
 
 {
   # Linux Kernel
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_10;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
+  # boot.kernelPackages = pkgs.linuxKernel.packages.linux;
+  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_lqx;
+
   boot.kernelParams = [
     "quiet"
     "fbcon=nodefer"
     "vt.global_cursor_default=0"
-    "lsm=landlock,lockdown,yama,integrity,selinux"
+    "lsm=landlock,lockdown,yama,integrity"
     "security=apparmor"
     "spectre_v2=on"
     "spec_store_bypass_disable=on"
     "mds=full,nosmt"
     "mitigations=auto"
+    "ucsi_acpi.debug=1"
+    "usbcore.autosuspend=-1"
+    "usbhid.mousepoll=0"
   ];
 
   boot.initrd.kernelModules = [
@@ -20,7 +26,7 @@
     "tpm_crb"
   ];
 
-  services.xserver.enable = true;
+  # services.xserver.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Apparmor Configuration

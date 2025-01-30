@@ -1,71 +1,60 @@
+{ pkgs, ... }:
 {
-  pkgs,
-  ...
-}:
-
-{
-  # Enable the X11 windowing system
-  services.xserver.enable = true;
-
-  services.blueman.enable = true;
-  hardware.bluetooth.enable = true;
-
-  # Enable location services
-  services.geoclue2 = {
-    enable = true;
-    enableWifi = true;
-    appConfig = {
-      "gnome-datetime-panel" = {
-        isAllowed = true;
-        isSystem = true;
-      };
-      "gnome-settings-daemon" = {
-        isAllowed = true;
-        isSystem = true;
-      };
-    };
-  };
-  # Enable the GNOME Desktop Environment
-  services.xserver.displayManager.gdm.enable = true;
+  # Enable GNOME
   services.xserver.desktopManager.gnome.enable = true;
 
-  # Enable touchpad support
+  # Trackpad support
   services.libinput.enable = true;
 
-  # environment.gnome.excludePackages = with pkgs.gnome; [
-  #   # cheese # photo booth
-  #   epiphany # web browser
-  #   pkgs.gedit # text editor
-  #   totem # video player
-  #   geary # email client
-  #   # seahorse # password manager
-  # ];
-
-  # Install some GNOME applications and tools
-  environment.systemPackages = with pkgs; [
-    gnome-bluetooth
-    gnome-tweaks
-    nautilus
-    geoclue2
-    eog
-    evince
-    gnome-calculator
-    gnome-calendar
-    gnome-music
-    gnome-photos
-    gnome-system-monitor
-    gnome-extensions-cli
-  ];
-
-  # Enable some GNOME services
-  services.gnome = {
-    gnome-keyring.enable = true;
-    gnome-online-accounts.enable = true;
-    gnome-settings-daemon.enable = true;
-    tracker.enable = true;
-    tracker-miners.enable = true;
+  # Remove decorations for QT applications
+  environment.sessionVariables = {
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
   };
 
-  # Enable GNOME file-sharing
-  services.gvfs.enable = true;
+  # Excluding some GNOME applications from the default install
+  environment.gnome.excludePackages =
+    (with pkgs; [
+      gedit
+      gnome-connections
+      gnome-console
+      gnome-photos
+      gnome-tour
+      snapshot
+      atomix # puzzle game
+      epiphany # web browser
+      geary # email reader
+      gnome-terminal
+      tali # poker game
+      yelp # help viewer
+      hitori # sudoku game
+      iagno # go game
+    ])
+    ++ (with pkgs; [
+      cheese # webcam tool
+      evince # document viewer
+      gnome-calendar
+      gnome-characters
+      gnome-contacts
+      gnome-disk-utility
+      gnome-logs
+      gnome-maps
+      gnome-music
+      gnome-shell-extensions
+      gnome-system-monitor
+      gnome-weather
+      simple-scan
+    ]);
+
+  # List of Gnome specific packages
+  environment.systemPackages = with pkgs; [
+    gnome-clocks
+    gparted
+    gnome-font-viewer
+    baobab # disk usage analyzer
+    gnome-tweaks
+    gnomeExtensions.rounded-window-corners-reborn
+    gnomeExtensions.user-themes
+    gnomeExtensions.appindicator
+    gnomeExtensions.auto-move-windows
+  ];
 }

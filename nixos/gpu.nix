@@ -1,31 +1,31 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   hardware = {
-    graphics = {
+    enableAllFirmware = true;
+    cpu.amd.updateMicrocode = true;
+    graphics = with pkgs; {
       enable = true;
       enable32Bit = true;
-      extraPackages = with pkgs; [
-        rocm-opencl-icd
-        rocmPackages.clr.icd
-        rocm-opencl-runtime
-        mesa
-        mesa.drivers
+      extraPackages = [
         # amdvlk
+        rocmPackages.clr
+        rocmPackages.clr.icd
+        mesa.drivers
       ];
+      extraPackages32 = [ driversi686Linux.amdvlk ];
     };
-
-    # AMDGPU specific configuration
-    amdgpu.initrd.enable = lib.mkDefault true;
   };
 
-  # Kernel parameters for Southern Islands GPUs
-  boot.kernelParams = [
-    "radeon.si_support=0"
-    "amdgpu.si_support=1"
-  ];
+  services.power-profiles-daemon.enable = true;
 
   environment.systemPackages = with pkgs; [
+    vulkan-tools
     clinfo
+    glxinfo
+    powertop
+    nvtopPackages.amd
+    lm_sensors
+    radeontop
   ];
 }

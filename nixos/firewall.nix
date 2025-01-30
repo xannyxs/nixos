@@ -1,10 +1,15 @@
 { ... }:
 
 {
-  # Open ports in the firewall.
-  # networking.firewall.allowedInterfaces = [ "br0" ];
-  # networking.firewall.allowedTCPPorts = [ 3000 ];
-  # networking.firewall.allowedUDPPorts = [ 3000 ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedUDPPorts = [
+      51820
+      9993
+    ];
+    allowedTCPPorts = [
+      51820
+      9993
+    ];
+  };
 }

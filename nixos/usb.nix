@@ -1,10 +1,7 @@
 { pkgs, ... }:
 
 {
-  # Enable USB Guard
-
   # FIXME: set yours pref USB devices (change {id} to your trusted USB device), use `lsusb` command (from usbutils package) to get list of all connected USB devices including integrated devices like camera, bluetooth, wifi, etc. with their IDs or just disable `usbguard`
-
   services.usbguard = {
     enable = true;
     dbus.enable = true;
@@ -19,6 +16,7 @@
       allow id 32ac:0002 # Framework HDMI Expansion Card
       allow id 05e3:0610 # Genesys Logic, Inc. Hub
       allow id 32ac:0009 # Framework SD Expansion Card
+      allow id 0bda:8153 # Giganet Ethernet
 
       # Hard Drives
       allow id 0781:55ae # SanDisk Corp. Extreme 55AE
@@ -28,10 +26,16 @@
 
       # USB
       allow id 090c:1000 # Silicon Motion, Inc. - Taiwan Flash Drive
+      allow id 2109:0817 # Nexus
 
       # General
+      allow id 1d6b:0003 # Linux Foundation 3.0 root hub
+      allow id 05e3:0625 # Genesys Logic, Inc. USB3.2 Hub
+      allow id 2109:0817 # VIA Labs, Inc. USB3.0 Hub   
       allow id 1edb:be55 # Blackmagic design Blackmagic Design
+      allow id 1edb:be83 # Blackmagic design ATEM Mini Extreme ISO
       allow id 0bda:5634 # Realtek Semiconductor Corp. Laptop Camera
+      allow id 1edb:be55 # Blackmagic design ATEM Mini Pro
     '';
   };
 

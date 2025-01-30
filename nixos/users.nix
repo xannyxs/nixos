@@ -12,6 +12,7 @@
       "video"
       "audio"
       "tss"
+      "docker"
       "disk"
       "usb"
       "kvm"
@@ -20,23 +21,37 @@
     shell = pkgs.zsh;
 
     packages = with pkgs; [
-      spotify
-      vscodium
-      librewolf
-      ungoogled-chromium
-      steam
-      vlc
+      # Check firejail.nix
+      # spotify
+      # librewolf
+      # ungoogled-chromium
       telegram-desktop
+      # google-chrome
+
+      vscodium
+      vlc
       tor-browser
       obs-studio
-      # (pkgs.writeShellScriptBin "obs" ''
-      # export GDK_BACKEND=x11
-      #   ${pkgs.obs-studio}/bin/obs "$@"
-      # '')
-      mixxx
+      steam
+      (pkgs.writeShellScriptBin "obs" ''
+        export GDK_BACKEND=x11
+          ${pkgs.obs-studio}/bin/obs "$@"
+      '')
+      # mixxx
       mongodb-compass
       prismlauncher
+      distrobox
+      davinci-resolve-studio
     ];
+  };
+
+  programs.steam = {
+    enable = true;
+    package = pkgs.steam.override {
+      extraEnv = {
+        DRI_PRIME = "1";
+      };
+    };
   };
 
   # Change runtime directory size

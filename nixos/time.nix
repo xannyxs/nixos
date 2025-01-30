@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  time.timeZone = "Asia/Bangkok";
+  time.timeZone = "Europe/Paris";
   services.timesyncd.enable = true;
 }
