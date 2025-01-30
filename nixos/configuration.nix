@@ -8,8 +8,6 @@
   nixpkgs.config.allowUnfree = true;
   programs.neovim.defaultEditor = true;
 
-  programs.fish.enable = true;
-
   services.xserver = {
     enable = true;
   };
@@ -17,12 +15,7 @@
   environment.systemPackages = with pkgs; [
     vim
     neovim
-
-    libnotify
   ];
-
-  # xdg.portal.enable = true;
-  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # Enable Services
@@ -10,11 +10,15 @@
   security.polkit.enable = true;
   services.dbus.enable = true;
   services.upower.enable = true;
-  programs.fish.enable = true;
   services.fwupd.enable = true;
-
   services.gvfs.enable = true; # Mount, trash, and other functionalities
-  services.tumbler.enable = true; 
+  services.tumbler.enable = true;
+
+  programs.zsh.enable = true;
+
+  programs.java = {
+    enable = true;
+  };
 
   environment.systemPackages = with pkgs; [
     file-roller
@@ -29,6 +33,8 @@
 
     poweralertd
     playerctl
+    jdk21_headless
+    jdk17_headless
     # psmisc #- A set of some small useful utilities that use the proc filesystem
     # grim # - Screenshot utility for Wayland
     # slurp # - Select a region in Wayland compositors

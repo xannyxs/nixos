@@ -11,7 +11,15 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-ld, lanzaboote, home-manager, ... } @ inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nix-ld,
+      lanzaboote,
+      home-manager,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -20,10 +28,12 @@
           allowUnfree = true;
         };
       };
-    in 
-      {
-      nixosConfigurations.xannyx = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs system; };
+    in
+    {
+      nixosConfigurations.saturn = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs system;
+        };
         modules = [
           nix-ld.nixosModules.nix-ld
           { programs.nix-ld.dev.enable = true; }
