@@ -22,25 +22,16 @@
 
     packages = with pkgs; [
       # Check firejail.nix
-      # spotify
       # librewolf
-      # ungoogled-chromium
-      telegram-desktop
       # google-chrome
+      # mixxx
 
-      vscodium
-      vlc
-      tor-browser
-      obs-studio
+	prismlauncher
       steam
       (pkgs.writeShellScriptBin "obs" ''
         export GDK_BACKEND=x11
           ${pkgs.obs-studio}/bin/obs "$@"
       '')
-      # mixxx
-      mongodb-compass
-      prismlauncher
-      distrobox
       davinci-resolve-studio
     ];
   };

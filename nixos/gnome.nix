@@ -1,7 +1,19 @@
 { pkgs, ... }:
 {
   # Enable GNOME
+
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm = {
+    enable = true;
+    wayland = true;
+  };
   services.xserver.desktopManager.gnome.enable = true;
+  displayManager.gdm.enable = true;
+
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.xorg.xset}/bin/xset s off
+    ${pkgs.xorg.xset}/bin/xset -dpms
+  '';
 
   # Trackpad support
   services.libinput.enable = true;
@@ -55,6 +67,7 @@
     gnomeExtensions.rounded-window-corners-reborn
     gnomeExtensions.user-themes
     gnomeExtensions.appindicator
-    gnomeExtensions.auto-move-windows
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.battery-health-charging
   ];
 }

@@ -4,7 +4,6 @@
   # Linux Kernel
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
   # boot.kernelPackages = pkgs.linuxKernel.packages.linux;
-  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_lqx;
 
   boot.kernelParams = [
     "quiet"
@@ -61,7 +60,6 @@
     policycoreutils
     audit
     lsof
-    htop
     iftop
     nmap
     clinfo

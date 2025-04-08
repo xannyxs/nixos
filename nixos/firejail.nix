@@ -4,11 +4,13 @@
   programs.firejail = {
     enable = true;
     wrappedBinaries = {
-      librewolf = {
-        executable = "${lib.getBin pkgs.librewolf}/bin/librewolf";
-        profile = "${pkgs.firejail}/etc/firejail/librewolf.profile";
-        desktop = "${pkgs.librewolf}/share/applications/librewolf.desktop";
-      };
+      /*
+        librewolf = {
+          executable = "${lib.getBin pkgs.librewolf}/bin/librewolf";
+          profile = "${pkgs.firejail}/etc/firejail/librewolf.profile";
+          desktop = "${pkgs.librewolf}/share/applications/librewolf.desktop";
+        };
+      */
 
       google-chrome-stable = {
         executable = "${pkgs.google-chrome}/bin/google-chrome-stable";
@@ -28,11 +30,13 @@
       #   desktop = "${pkgs.telegram-desktop}/share/applications/org.telegram.desktop.desktop"; # or tdesktop
       # };
 
-      ungoogled-chromium = {
-        executable = "${lib.getBin pkgs.ungoogled-chromium}/bin/chromium"; # changed binary name
-        profile = "${pkgs.firejail}/etc/firejail/chromium-browser.profile";
-        desktop = "${pkgs.ungoogled-chromium}/share/applications/chromium-browser.desktop";
-      };
+      /*
+        ungoogled-chromium = {
+          executable = "${lib.getBin pkgs.ungoogled-chromium}/bin/chromium"; # changed binary name
+          profile = "${pkgs.firejail}/etc/firejail/chromium-browser.profile";
+          desktop = "${pkgs.ungoogled-chromium}/share/applications/chromium-browser.desktop";
+        };
+      */
     };
   };
 }

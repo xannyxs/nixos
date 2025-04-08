@@ -27,7 +27,6 @@
           ./gpu.nix
           ./swap.nix
           ./cpu.nix
-          ./configuration.nix
           ./common.nix
           ./hardware-configuration.nix
           ./audio.nix
@@ -37,11 +36,13 @@
           ./gc.nix
           ./linux-kernel.nix
           ./screen.nix
-          ./theme.nix
+          # ./theme.nix
           ./internationalisation.nix
           ./fonts.nix
           ./services.nix
-          ./gnome.nix
+          ./xfce.nix
+          # ./gnome.nix
+          # ./hyprland.nix
           ./env.nix
           ./bluetooth.nix
           ./networking.nix

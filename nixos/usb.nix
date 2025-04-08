@@ -41,6 +41,7 @@
 
   # Enable USB-specific packages
   environment.systemPackages = with pkgs; [
+    usbguard-notifier
     usbutils
     exfat
     exfatprogs
