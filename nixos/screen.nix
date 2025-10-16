@@ -1,20 +1,25 @@
 { pkgs, ... }:
 
 {
-  services.geoclue2.appConfig = {
-      "gammastep" = {
-        isAllowed = true;
-        isSystem = false;
-        users = [ "1000" ];
-      };
+  services.geoclue2.enable = true;
+
+  services.redshift = {
+    enable = true;
+    provider = "geoclue2";
+    brightness = {
+      day = "1";
+      night = "1";
+    };
+    temperature = {
+      day = 5500;
+      night = 3700;
+    };
   };
-  
+
   programs.light.enable = true;
 
   environment.systemPackages = with pkgs; [
-    gammastep # Screen filter
     brightnessctl # Brightness settings
-
     nwg-displays # GUI Display Layout
   ];
 }

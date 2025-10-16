@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   # Linux Kernel
@@ -9,8 +9,6 @@
     "quiet"
     "fbcon=nodefer"
     "vt.global_cursor_default=0"
-    "lsm=landlock,lockdown,yama,integrity"
-    "security=apparmor"
     "spectre_v2=on"
     "spec_store_bypass_disable=on"
     "mds=full,nosmt"
@@ -28,24 +26,6 @@
   # services.xserver.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
 
-  # Apparmor Configuration
-  security.apparmor.enable = true;
-  security.apparmor.packages = with pkgs; [
-    apparmor-utils
-    apparmor-profiles
-  ];
-
-  # Additional Security Measures
-  security.audit.enable = true;
-  security.auditd.enable = true;
-  security.sudo.enable = true;
-  security.sudo.wheelNeedsPassword = true;
-
-  # System Hardening
-  # security.protectKernelImage = true;
-  # security.lockKernelModules = true;
-  # security.forcePageTableIsolation = true;
-
   # Package Management
   nix.settings.allowed-users = [ "@wheel" ];
   nix.settings.trusted-users = [
@@ -55,8 +35,6 @@
 
   # System Packages
   environment.systemPackages = with pkgs; [
-    apparmor-utils
-    apparmor-profiles
     policycoreutils
     audit
     lsof

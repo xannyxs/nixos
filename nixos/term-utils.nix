@@ -7,5 +7,8 @@
     curl
     zip
     unzip
+
+    python3
+    python313Packages.selenium
   ];
 }

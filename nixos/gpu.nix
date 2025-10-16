@@ -11,7 +11,7 @@
         # amdvlk
         rocmPackages.clr
         rocmPackages.clr.icd
-        mesa.drivers
+        mesa
       ];
       extraPackages32 = [ driversi686Linux.amdvlk ];
     };

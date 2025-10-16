@@ -1,6 +1,9 @@
 { pkgs, ... }:
 
 {
+
+  services.usbmuxd.enable = true; # tmp
+
   # Enable Services
   security.polkit.enable = true;
   services.dbus.enable = true;
@@ -11,29 +14,21 @@
 
   programs.nix-ld.enable = true;
 
-  # Mullvad
-  # networking.resolvconf.enable = false;
-  # services.resolved.enable = true;
-  # networking.wireguard.enable = true;
-  # networking.iproute2.enable = true;
-  # services.mullvad-vpn.enable = true;
-
   programs.zsh.enable = true;
   programs.java.enable = true;
-  programs.neovim.defaultEditor = true;
+  programs.neovim = {
+    defaultEditor = true;
+    enable = true;
+    # package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+  };
 
   environment.systemPackages = with pkgs; [
-    neovim
-
     hunspell
     hunspellDicts.nl_nl
     hunspellDicts.en_GB-ize
 
     home-manager
     file-roller
-
-    # mullvad
-    # mullvad-vpn
 
     poweralertd
     playerctl
