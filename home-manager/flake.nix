@@ -2,30 +2,57 @@
   description = "Home Manager configuration of xannyx";
 
   inputs = {
-    # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    catppuccin.url = "github:catppuccin/nix";
+    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }:
+    {
+      nixpkgs,
+      home-manager,
+      catppuccin,
+      spicetify-nix,
+      neovim-nightly,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      userConfig = {
+        name = "xannyx";
+      };
+      overlays = [
+        inputs.neovim-nightly.overlays.default
+      ];
     in
     {
-      homeConfigurations.xannyx = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.${userConfig.name} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
+        extraSpecialArgs = {
+          inherit
+            catppuccin
+            spicetify-nix
+            userConfig
+            neovim-nightly
+            ;
+        };
 
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [ ./home.nix ];
-
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
+        modules = [
+          ./home.nix
+          catppuccin.homeModules.catppuccin
+          {
+            nixpkgs.overlays = overlays;
+          }
+        ];
       };
     };
 }
