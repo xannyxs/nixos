@@ -17,31 +17,20 @@
 
     # Aliases
     shellAliases = {
-      config = "git --git-dir=$HOME/.cfg/ --work-tree=$HOME";
       lgit = "lazygit";
-      conf = "cd ~/.config";
       nixos = "cd /etc/nixos";
-      store = "cd /nix/store";
-      nswitch = "sudo nixos-rebuild switch --flake /etc/nixos";
-      nswitchu = "sudo nixos-rebuild switch --flake /etc/nixos#xannyx --update-input nixpkgs --commit-lock-file --upgrade";
-      nsgc = "sudo nix-store --gc";
-      ngc = "sudo nix-collect-garbage -d";
-      ngc7 = "sudo nix-collect-garbage --delete-older-than 7d";
-      ngc14 = "sudo nix-collect-garbage --delete-older-than 14d";
+
       nvim = "nvim";
       n = "nvim";
       nvimm = "nvim";
       nvimmm = "nvim";
       vimm = "nvim";
       vim = "nvim";
-      cat = "bat";
+
       rm = "rm -i";
       grep = "grep --color=auto";
       fgrep = "fgrep --color=auto";
       egrep = "egrep --color=auto";
-      venv = "python3 -m venv ./venv";
-      activate = "source ./venv/bin/activate"; # Changed from .fish to regular activate
-      reload = "source ~/.zshrc"; # Changed from fish config to zshrc
     };
 
     initContent = ''

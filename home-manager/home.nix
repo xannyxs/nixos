@@ -4,9 +4,6 @@
   ...
 }:
 
-let
-  stremio-rust = pkgs.callPackage ./stremio.nix { };
-in
 {
   imports = [
     ./bat.nix
@@ -48,8 +45,6 @@ in
       figlet
       oh-my-zsh
       zsh
-
-      stremio-rust
 
       wget
       curl

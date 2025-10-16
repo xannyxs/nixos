@@ -1,10 +1,8 @@
 { pkgs, ... }:
 {
-  # Neovim text editor configuration
   programs.neovim = {
     enable = true;
     defaultEditor = true;
-    # package = pkgs.neovim-nightly;
 
     extraPackages = with pkgs; [
       # Lua
