@@ -1,2 +1,2 @@
 ./hardware-configuration.nix
-./git.nix
+./home-manager/git.nix
