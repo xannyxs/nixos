@@ -34,10 +34,14 @@
     };
 
     initContent = ''
-      # Create completion directory with correct permissions
+      if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$PS1" ]; then
+        exec tmux new-session -A -s main
+      fi
+
       if [ ! -d "$HOME/.cache/oh-my-zsh/completions" ]; then
         mkdir -p "$HOME/.cache/oh-my-zsh/completions"
-        chmod 755 "$HOME/.cache/oh-my-zsh/completions" chmod 755 "$HOME/.cache/oh-my-zsh/completions/_docker"
+        chmod 755 "$HOME/.cache/oh-my-zsh/completions"
+        chmod 755 "$HOME/.cache/oh-my-zsh/completions/_docker"
       fi
 
       dockerpurge() {
@@ -59,11 +63,6 @@
         echo "Cleaning up Docker system..."
         docker system prune -af --volumes
         echo "Docker purge complete."
-      }
-
-      # Function: mkcd
-      mkcd() {
-        mkdir -p "$1" && cd "$1"
       }
 
       print_greeting() {

@@ -1,23 +1,13 @@
 {
-  lib,
+  pkgs,
   stdenv,
-  rustPlatform,
-  fetchFromGitHub,
-  openssl,
-  pkg-config,
-  gtk3,
-  mpv,
-  libappindicator,
-  libcef,
-  makeWrapper,
-  nodejs,
-  libxkbcommon,
-  # fetchurl,
+  lib,
   ...
 }:
+
 let
-  # cef-rs expects a specific directory layout
-  # Copied from https://github.com/NixOS/nixpkgs/pull/428206 because im lazy
+  libcef = pkgs.libcef;
+
   cef-path = stdenv.mkDerivation {
     pname = "cef-path";
     version = libcef.version;
@@ -34,76 +24,53 @@ let
       strip $out/*.so*
     '';
   };
-
-  # NOTE stremio downloads server.js into XDG_DATA_DIR. Packaging it is not required.
-  # I'm patching this because I don't enjoy stremio downloading code at runtime.
-  # This and the postPatch are not needed if you're okay with stremio downloading server.js at runtime
-  # Latest server.js version found at https://www.strem.io/updater/server/check
-  # server = fetchurl rec {
-  #   pname = "stremio-server";
-  #   version = "4.20.11";
-  #   url = "https://dl.strem.io/server/v${version}/desktop/server.js";
-  #   hash = "sha256-2QCwUlusNTGqbOmOGjyKOx0bHaoGmn9vy93qViXx95E=";
-  #   meta.license = lib.licenses.unfree;
-  # };
-
 in
-rustPlatform.buildRustPackage (finalAttrs: {
-  name = "stremio-linux-shell";
+pkgs.rustPlatform.buildRustPackage (finalAttrs: {
+  pname = "stremio";
   version = "1.0.0-beta.11";
 
-  src = fetchFromGitHub {
+  src = pkgs.fetchFromGitHub {
     owner = "Stremio";
     repo = "stremio-linux-shell";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-FNAeur5esDqBoYlmjUO6jdi1eC83ynbLxbjH07QZ++E=";
+    sha256 = "sha256-FNAeur5esDqBoYlmjUO6jdi1eC83ynbLxbjH07QZ++E=";
   };
 
   cargoHash = "sha256-9/28BCG51jPnKXbbzzNp7KQLMkLEugFQfwszRR9kmUw=";
+  nativeBuildInputs = with pkgs; [
+    pkg-config
+    makeWrapper
+  ];
 
-  # The build scripts tries to download CEF binaries by default.
-  # Probably overkill since setting CEF_PATH should skip downloading binaries.
   buildFeatures = [
     "offline-build"
   ];
-
-  buildInputs = [
+  buildInputs = with pkgs; [
     openssl
-    libxkbcommon
     gtk3
     mpv
     libcef
+    libxkbcommon
   ];
-
-  nativeBuildInputs = [
-    makeWrapper
-    pkg-config
-  ];
-
-  #postPatch = ''
-  #  substituteInPlace ./src/config.rs \
-  #    --replace-fail \
-  #      'let file = data_dir.join(SERVER_FILE);' \
-  #      'let file = PathBuf::from(r"${server}");'
-
-  #  substituteInPlace ./src/server.rs \
-  #    --replace-fail \
-  #      'let should_download = self.config.version() != Some(latest_version.clone());' \
-  #      'let should_download = false;'
-  #'';
 
   postInstall = ''
-    mkdir -p $out/share/applications
-    mkdir -p $out/share/icons/hicolor/scalable/apps
+        mkdir -p $out/share/applications
+        mkdir -p $out/share/icons/hicolor/scalable/apps
 
-    mv $out/bin/stremio-linux-shell $out/bin/stremio
-    cp $src/data/com.stremio.Stremio.desktop $out/share/applications/com.stremio.Stremio.desktop
-    cp $src/data/icons/com.stremio.Stremio.svg $out/share/icons/hicolor/scalable/apps/com.stremio.Stremio.svg
+        mv $out/bin/stremio-linux-shell $out/bin/stremio
+        cp $src/data/com.stremio.Stremio.desktop $out/share/applications/com.stremio.Stremio.desktop
+        cp $src/data/icons/com.stremio.Stremio.svg $out/share/icons/hicolor/scalable/apps/com.stremio.Stremio.svg
 
 
     wrapProgram $out/bin/stremio \
-       --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ libappindicator ]} \
-       --prefix PATH : ${lib.makeBinPath [ nodejs ]}'';
+       --prefix LD_LIBRARY_PATH : ${
+         lib.makeLibraryPath [
+           pkgs.libappindicator
+           pkgs.libxkbcommon
+         ]
+       } \
+       --prefix PATH : ${lib.makeBinPath [ pkgs.nodejs ]}
+  '';
 
   env.CEF_PATH = cef-path;
 
@@ -120,6 +87,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     maintainers = with lib.maintainers; [
       griffi-gh
       { name = "nuko"; }
+      { name = "xannyxs"; }
     ];
     platforms = lib.platforms.linux;
   };

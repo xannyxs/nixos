@@ -3,25 +3,26 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    catppuccin.url = "github:catppuccin/nix";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    spicetify-nix = {
-      url = "github:Gerg-L/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+    # catppuccin.url = "github:catppuccin/nix";
+    # spicetify-nix = {
+    #   url = "github:Gerg-L/spicetify-nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
     {
       nixpkgs,
       home-manager,
-      catppuccin,
-      spicetify-nix,
       neovim-nightly,
+      # catppuccin,
+      # spicetify-nix,
       ...
     }@inputs:
     let
@@ -39,16 +40,15 @@
         inherit pkgs;
         extraSpecialArgs = {
           inherit
-            catppuccin
-            spicetify-nix
             userConfig
             neovim-nightly
+            # catppuccin
+            # spicetify-nix
             ;
         };
 
         modules = [
           ./home.nix
-          catppuccin.homeModules.catppuccin
           {
             nixpkgs.overlays = overlays;
           }

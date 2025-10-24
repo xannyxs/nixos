@@ -10,10 +10,6 @@
     ];
   };
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "qtwebengine-5.15.19"
-  ];
-
   home = {
     packages = with pkgs; [
       # GUI
@@ -30,8 +26,7 @@
       # Entertainment
       vlc
       strawberry
-      calibre
-      # stremio
+      # calibre
 
       # Tor
       tor-browser
@@ -49,7 +44,7 @@
       tree
 
       # Programming
-      rpi-imager
+      # rpi-imager
       htop
       distrobox
       vscodium

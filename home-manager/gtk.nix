@@ -8,10 +8,8 @@ let
   chicago95 = import ./chicago95.nix { inherit pkgs lib; };
 in
 {
-  # Add the package to your packages
   home.packages = [ chicago95.chicago95 ];
 
-  # Set GTK theme
   gtk = {
     enable = true;
     theme = {
@@ -19,8 +17,28 @@ in
       package = chicago95.chicago95;
     };
     iconTheme = {
-      name = "Chicago95"; # Or whichever specific icon theme you want
+      name = "Chicago95";
       package = chicago95.chicago95;
     };
   };
+
+  xdg.configFile."gtk-3.0/settings.ini".force = true;
+  xdg.configFile."gtk-3.0/settings.ini".text = ''
+    [Settings]
+    gtk-theme-name=Chicago95
+    gtk-icon-theme-name=Chicago95
+    gtk-sound-theme-name=Chicago95
+    gtk-enable-event-sounds=1
+    gtk-enable-input-feedback-sounds=1
+  '';
+
+  xdg.configFile."gtk-4.0/settings.ini".force = true;
+  xdg.configFile."gtk-4.0/settings.ini".text = ''
+    [Settings]
+    gtk-theme-name=Chicago95
+    gtk-icon-theme-name=Chicago95
+    gtk-sound-theme-name=Chicago95
+    gtk-enable-event-sounds=1
+    gtk-enable-input-feedback-sounds=1
+  '';
 }

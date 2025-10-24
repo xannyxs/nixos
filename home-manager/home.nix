@@ -4,17 +4,20 @@
   ...
 }:
 
+let
+  custom-stremio = pkgs.callPackage ./stremio.nix { };
+in
 {
   imports = [
-    ./bat.nix
+    ./git.nix
     ./lazygit.nix
     ./nvim.nix
-    ./spicetify.nix
     ./tmux.nix
     ./zsh.nix
     ./programs.nix
     ./xfce.nix
     ./gtk.nix
+    # ./spicetify.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -26,10 +29,10 @@
     };
   };
 
-  catppuccin = {
-    flavor = "macchiato";
-    accent = "lavender";
-  };
+  # catppuccin = {
+  #   flavor = "macchiato";
+  #   accent = "lavender";
+  # };
 
   home = {
     username = "${userConfig.name}";
@@ -37,6 +40,8 @@
     packages = with pkgs; [
       nerd-fonts.jetbrains-mono
       nerd-fonts.fira-code
+
+      custom-stremio
 
       ripgrep
       starship
@@ -87,12 +92,6 @@
       wireshark
       ffmpeg
     ];
-  };
-
-  programs.git = {
-    enable = true;
-    userName = "xannyx";
-    userEmail = "xander@xvproductions.com";
   };
 
   # Home Manager can also manage your environment variables through
