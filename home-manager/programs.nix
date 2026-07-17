@@ -3,65 +3,74 @@
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscodium;
-    profiles.default.extensions = with pkgs.vscode-extensions; [
-      vscodevim.vim
-      llvm-vs-code-extensions.vscode-clangd
-    ];
+    package = pkgs.vscode.fhs;
   };
+  programs.starship.enable = true;
 
-  home = {
-    packages = with pkgs; [
-      # GUI
-      brave
-      telegram-desktop
-      librewolf-bin
-      obs-studio
-      protonvpn-gui
-      galculator
-      qalculate-gtk
+  home.packages = with pkgs; [
+    zed-editor
 
-      trezor-suite
+    # CLI
+    bc
+    dig
+    htop
+    jq
+    moreutils
+    tree
 
-      # Entertainment
-      vlc
-      strawberry
-      # calibre
+    # Browsers
+    brave
+    librewolf
+    tor-browser
 
-      # Tor
-      tor-browser
-      qbittorrent
+    # Media
+    obs-studio
+    strawberry
+    vlc
 
-      # File Sharing
-      localsend
-      rclone
+    # Messaging
+    telegram-desktop
 
-      # TUI
-      tigervnc
-      moreutils
-      gnome-disk-utility
-      astroterm
-      tree
+    # Networking
+    filezilla
+    localsend
+    openvpn
+    proton-vpn-cli
+    qbittorrent
+    rclone
+    tigervnc
 
-      # Programming
-      # rpi-imager
-      htop
-      distrobox
-      vscodium
+    # Photos & Graphics
+    exiftool
+    gimp
+    libjxl
+    libraw
+    rawtherapee
 
-      jetbrains.clion
+    # Development
+    claude-code
+    devenv
 
-      android-studio
-      android-tools
-      android-udev-rules
+    # Mobile
+    ifuse
+    libimobiledevice
 
-      # Games
-      ckan
+    # Misc
+    astroterm
+    qalculate-gtk
 
-      libimobiledevice
-      ifuse
-      exiftool
+    rpi-imager
+    gparted
+    calibre
 
-    ];
-  };
+    # Games
+    ckan
+
+    cloc
+    mpv
+    irssi
+
+    btop
+    deadbeef
+  ];
 }

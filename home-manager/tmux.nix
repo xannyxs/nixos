@@ -8,7 +8,7 @@
     plugins = with pkgs; [
       tmuxPlugins.sensible
       tmuxPlugins.vim-tmux-navigator
-      tmuxPlugins.yank
+      # tmuxPlugins.yank
       tmuxPlugins.catppuccin
       {
         plugin = tmuxPlugins.resurrect;
@@ -27,7 +27,7 @@
     ];
 
     extraConfig = ''
-      set-option -sa terminal-overrides ",xterm*:Tc"
+      set -ga terminal-overrides ",st-256color:Tc"
 
       unbind C-b
       set -g prefix C-Space
@@ -41,7 +41,7 @@
 
       bind-key -T copy-mode-vi v send-keys -X begin-selection
       bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
-      bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -selection clipboard -in"
 
       bind '"' split-window -v -c "#{pane_current_path}"
       bind % split-window -h -c "#{pane_current_path}"

@@ -4,11 +4,9 @@
   ...
 }:
 
-let
-  custom-stremio = pkgs.callPackage ./stremio.nix { };
-in
 {
   imports = [
+    # ./xsession.nix
     ./git.nix
     ./lazygit.nix
     ./nvim.nix
@@ -17,7 +15,7 @@ in
     ./programs.nix
     ./xfce.nix
     ./gtk.nix
-    # ./spicetify.nix
+    ./zed.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -41,10 +39,9 @@ in
       nerd-fonts.jetbrains-mono
       nerd-fonts.fira-code
 
-      custom-stremio
+      # custom-stremio
 
       ripgrep
-      starship
       delta
       sbctl
       figlet
@@ -55,18 +52,11 @@ in
       curl
       zip
       unzip
-      fastfetch # System fetcher
-
-      # Rust
-      rustc
-      cargo
+      fastfetch
 
       # Kotlin
       kotlin
       maven
-
-      # Front - end
-      nodePackages."@nestjs/cli"
 
       # C / C++
       gcc
@@ -88,7 +78,7 @@ in
       typescript
 
       # Programs
-      libreoffice
+      onlyoffice-desktopeditors
       wireshark
       ffmpeg
     ];
@@ -105,7 +95,7 @@ in
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "25.05"; # Please read the comment before changing.
+  home.stateVersion = "26.05"; # Please read the comment before changing.
 
   programs.home-manager.enable = true;
 }

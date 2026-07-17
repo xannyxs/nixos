@@ -4,10 +4,24 @@
     enable = true;
     settings = {
       git = {
-        paging = {
-          colorArg = "always";
-          pager = "delta --color-only --dark --paging=never";
-        };
+        pagers = [
+          {
+            colorArg = "always";
+            pager = "delta --color-only --dark --paging=never";
+          }
+        ];
+      };
+
+      git.log = {
+        showGraph = "always";
+      };
+
+      gui = {
+        nerdFontsVersion = "3";
+      };
+
+      os = {
+        editPreset = "nvim";
       };
     };
   };

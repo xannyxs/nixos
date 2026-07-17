@@ -6,7 +6,17 @@
 }:
 
 let
-  libcef = pkgs.libcef;
+  pkgs-stable =
+    import
+      (builtins.fetchTarball {
+        url = "https://github.com/NixOS/nixpkgs/archive/nixos-25.05.tar.gz";
+        sha256 = "1rcvx4x6kc652pan6jggpqfvrzydhfi9k3kpjkj55mc38dwl690y";
+      })
+      {
+        system = pkgs.system;
+      };
+
+  libcef = pkgs-stable.libcef;
 
   cef-path = stdenv.mkDerivation {
     pname = "cef-path";

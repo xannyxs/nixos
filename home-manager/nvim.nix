@@ -1,67 +1,48 @@
 { pkgs, ... }:
 {
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
+  home.sessionVariables.EDITOR = "nvim";
 
-    extraPackages = with pkgs; [
-      # Lua
-      lua
-      luarocks
-      stylua
-      lua-language-server
-      luajitPackages.jsregexp
+  home.packages = with pkgs; [
+    neovim
+    tree-sitter
 
-      # LSP
-      biome
-      nixfmt-rfc-style
-      rustywind
-      kotlin-language-server
-      ktlint
-      nil
+    # Lua
+    lua
+    luarocks
+    luajitPackages.jsregexp
 
-      nodePackages.prettier
-      nodePackages."@astrojs/language-server"
-      nodePackages.ts-node
-      nodePackages.typescript-language-server
-      nodePackages.vscode-langservers-extracted
-      nodePackages."@tailwindcss/language-server"
-      nodePackages.vscode-json-languageserver
-      nodePackages.bash-language-server
-      vscode-langservers-extracted
-      yaml-language-server
-      markdownlint-cli
-      markdownlint-cli2
+    # LSP
+    nixfmt
+    rustywind
+    kotlin-language-server
+    ktlint
+    nil
 
-      # Low - Level
-      asmfmt
-      cmake-format
-      shellcheck
-      asm-lsp
+    php84Packages.composer
 
-      # Python
-      black
-      pyright
-      ruff
-      mypy
+    vscode-langservers-extracted
+    yaml-language-server
+    markdownlint-cli
+    markdownlint-cli2
 
-      # -- Need to check
-      clang-tools
-      bear
+    # Low-level
+    asmfmt
+    cmake-format
+    shellcheck
+    asm-lsp
 
-      # -- Rust
-      rustup
-      cargo # Package manager and build tool
-      clippy # Linter
-      rustfmt # Code formatter
-      lldb # Debugger
+    # Python
+    black
+    pyright
+    ruff
+    mypy
 
-      # Just cool
-      tree
+    clang-tools
 
-      # hadolint
-      # nixd
-      # shfmt
-    ];
-  };
+    # Rust
+    rustup
+    lldb
+
+    bear
+  ];
 }
