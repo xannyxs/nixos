@@ -1,18 +1,31 @@
-{ lib, ... }:
+{ pkgs, lib, ... }:
+
 {
   security = {
-    # Additional Security Measures
     audit.enable = true;
     auditd.enable = true;
 
     sudo.enable = true;
     sudo.wheelNeedsPassword = true;
 
+    protectKernelImage = true;
+
+    apparmor = {
+      enable = true;
+      packages = [ pkgs.apparmor-profiles ];
+    };
+
     lsm = lib.mkForce [
       "landlock"
-      "lockdown"
       "yama"
-      "integrity"
+      "bpf"
+      "lockdown"
     ];
   };
+
+  environment.systemPackages = [
+    pkgs.apparmor-utils
+  ];
+
+  environment.defaultPackages = [ ];
 }

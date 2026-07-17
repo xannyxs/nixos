@@ -7,6 +7,8 @@
   fonts = {
     fontDir.enable = true;
     packages = with pkgs; [
+      xclip
+
       # Sans-serif fonts
       source-sans
       open-sans

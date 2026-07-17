@@ -1,10 +1,15 @@
 { pkgs, ... }:
 {
-  # KVM/QEMU virtualization support
   programs.virt-manager.enable = true;
+  boot.extraModprobeConfig = "options kvm_amd nested=1";
 
-  # UEFI Support
-  # systemd.tmpfiles.rules = [ "L+ /var/lib/qemu/firmware - - - - ${pkgs.qemu}/share/qemu/firmware" ];
+  # networking.bridges = {
+  #   br0.interfaces = [ "eth0" ];
+  # };
+  #
+  # networking.interfaces.br0 = {
+  #   useDHCP = true;
+  # };
 
   virtualisation = {
     libvirtd = {
@@ -13,31 +18,15 @@
         package = pkgs.qemu_kvm;
         runAsRoot = true;
         swtpm.enable = true;
-        ovmf = {
-          enable = true;
-          packages = [
-            (pkgs.OVMF.override {
-              secureBoot = true;
-              tpmSupport = true;
-            }).fd
-          ];
-        };
       };
     };
     docker = {
       enable = true;
-      # Enable Docker daemon on boot
       enableOnBoot = true;
-      # Add support for non-root users to use Docker
-      # rootless = {
-      #   enable = true;
-      #   setSocketVariable = true;
-      # };
     };
   };
 
   environment.systemPackages = with pkgs; [
-    OVMF
     qemu_full
     virtiofsd
 
@@ -46,22 +35,11 @@
     spice-protocol
     spice-vdagent
 
-    # Docker-related tools
-    docker-compose # Replace podman-compose
-    docker-client # Docker CLI tools
-    lazydocker # Terminal UI for Docker
+    # Docker
+    docker-compose
+    docker-client
+    lazydocker
   ];
 
-  # USB redirection for SPICE
   virtualisation.spiceUSBRedirection.enable = true;
-
-  systemd.tmpfiles.rules =
-    let
-      firmware = pkgs.runCommandLocal "qemu-firmware" { } ''
-        mkdir $out
-        cp ${pkgs.qemu}/share/qemu/firmware/*.json $out
-        substituteInPlace $out/*.json --replace ${pkgs.qemu} /run/current-system/sw
-      '';
-    in
-    [ "L+ /var/lib/qemu/firmware - - - - ${firmware}" ];
 }

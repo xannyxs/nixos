@@ -2,12 +2,28 @@
   description = "Xannyx's NixOS Configuration";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-25.05";
+    nixpkgs.url = "nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
+
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/lanzaboote/v1.1.0";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    st-src = {
+      url = "git+https://codeberg.org/xannyx/st.git?ref=master";
+      flake = false;
+    };
+    dwm-src = {
+      url = "git+https://codeberg.org/xannyx/dwm.git?ref=master";
+      flake = false;
+    };
+    dmenu-src = {
+      url = "git+https://codeberg.org/xannyx/dmenu.git?ref=master";
+      flake = false;
     };
   };
 
@@ -19,28 +35,48 @@
       home-manager,
       lanzaboote,
       nixos-hardware,
+
+      st-src,
+      dwm-src,
+      dmenu-src,
       ...
     }:
     {
       nixosConfigurations.saturn = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit st-src dwm-src dmenu-src; };
         modules = [
           lanzaboote.nixosModules.lanzaboote
           (
             { pkgs, lib, ... }:
             {
-
-              environment.systemPackages = [
-                pkgs.sbctl
+              environment.systemPackages = with pkgs; [
+                sbctl
+                tpm2-tools
               ];
+
               boot.loader.systemd-boot.enable = lib.mkForce false;
+              boot.initrd.systemd.enable = true;
+              boot.lanzaboote.configurationLimit = 8;
 
               boot.lanzaboote = {
                 enable = true;
                 pkiBundle = "/var/lib/sbctl";
+                measuredBoot = {
+                  enable = true;
+                  pcrs = [
+                    0
+                    4
+                    7
+                  ];
+                };
+
               };
             }
           )
+
+          ./modules/suckless.nix
+          ./xfce.nix
 
           ./gpu.nix
           ./cpu.nix
@@ -55,7 +91,6 @@
           ./internationalisation.nix
           ./fonts.nix
           ./services.nix
-          ./xfce.nix
           ./env.nix
           ./bluetooth.nix
           ./networking.nix
@@ -65,11 +100,11 @@
           ./term-utils.nix
           ./time.nix
           ./security.nix
-          # ./usb.nix
-          # ./ai.nix
-          # ./theme.nix
-          # ./gnome.nix
+          ./ai.nix
+          ./xlib.nix
+
           # ./hyprland.nix
+          # ./usb.nix
           # ./firejail.nix
         ];
       };

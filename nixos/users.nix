@@ -22,29 +22,34 @@
 
     packages = with pkgs; [
       # Check firejail.nix
-      # librewolf
-      # google-chrome
       # mixxx
 
-	prismlauncher
-      steam
+      prismlauncher
       (pkgs.writeShellScriptBin "obs" ''
         export GDK_BACKEND=x11
           ${pkgs.obs-studio}/bin/obs "$@"
       '')
-      davinci-resolve-studio
+      # davinci-resolve-studio
     ];
   };
 
+  programs.gamemode.enable = true;
   programs.steam = {
     enable = true;
     package = pkgs.steam.override {
       extraEnv = {
+        GAMEMODERUN = "1";
+        AMD_VULKAN_ICD = "RADV";
+        VKD3D_CONFIG = "dxr,dxr11";
+        PROTON_ADD_CONFIG = "fsr4rdna3";
+        PROTON_LOCAL_SHADER_CACHE = "1";
+        MESA_SHADER_CACHE_MAX_SIZE = "16G";
+        MESA_GLSL_CACHE_MAX_SIZE = "16G";
+        WINE_VK_VULKAN_ONLY = "1";
+        WINEDLLOVERRIDES = "dinput8,dxgi,dsound=n,b";
         DRI_PRIME = "1";
       };
+      extraArgs = "-no-cef-sandbox -cef-disable-gpu";
     };
   };
-
-  # Change runtime directory size
-  services.logind.extraConfig = "RuntimeDirectorySize=8G";
 }

@@ -13,7 +13,7 @@
         rocmPackages.clr.icd
         mesa
       ];
-      extraPackages32 = [ driversi686Linux.amdvlk ];
+      # extraPackages32 = [ driversi686Linux.amdvlk ];
     };
   };
 
@@ -22,7 +22,7 @@
   environment.systemPackages = with pkgs; [
     vulkan-tools
     clinfo
-    glxinfo
+    # glxinfo
     powertop
     nvtopPackages.amd
     lm_sensors

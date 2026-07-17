@@ -2,10 +2,12 @@
 
 {
   services.geoclue2.enable = true;
+  services.autorandr.enable = true;
+
+  location.provider = "geoclue2";
 
   services.redshift = {
     enable = true;
-    provider = "geoclue2";
     brightness = {
       day = "1";
       night = "1";
@@ -16,10 +18,12 @@
     };
   };
 
-  programs.light.enable = true;
+  # programs.light.enable = true;
 
   environment.systemPackages = with pkgs; [
-    brightnessctl # Brightness settings
-    nwg-displays # GUI Display Layout
+    brightnessctl
+    nwg-displays
+    arandr
+    autorandr
   ];
 }

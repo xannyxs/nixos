@@ -1,10 +1,13 @@
 { pkgs, ... }:
 
 {
+  services.flatpak.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
 
   services.usbmuxd.enable = true; # tmp
-
-  # Enable Services
   security.polkit.enable = true;
   services.dbus.enable = true;
   services.upower.enable = true;
@@ -19,7 +22,6 @@
   programs.neovim = {
     defaultEditor = true;
     enable = true;
-    # package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
   };
 
   environment.systemPackages = with pkgs; [
@@ -33,14 +35,16 @@
     poweralertd
     playerctl
 
+    libmtp
+
     # Java
-    jdk8
+    # jdk8
     # jdk17_headless
-    # jdk21_headless
+    jdk21_headless
 
     wl-clipboard
     wl-clip-persist
-    kitty
+    st
     avizo
     quickemu # VM Launcher
     spice # VM Network
