@@ -41,5 +41,4 @@
   ];
 
   services.fail2ban.enable = true;
-  services.fwupd.enable = true;
 }

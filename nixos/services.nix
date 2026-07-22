@@ -42,10 +42,7 @@
     # jdk17_headless
     jdk21_headless
 
-    wl-clipboard
-    wl-clip-persist
     st
-    avizo
     quickemu # VM Launcher
     spice # VM Network
     qemu

@@ -32,8 +32,8 @@
     };
 
     xfce4-preferred-applications = {
-      "TerminalEmulator/Name" = "Kitty";
-      "TerminalEmulator/Command" = "kitty";
+      "TerminalEmulator/Name" = "st";
+      "TerminalEmulator/Command" = "st";
     };
   };
 }

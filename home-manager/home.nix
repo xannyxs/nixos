@@ -48,10 +48,6 @@
       oh-my-zsh
       zsh
 
-      wget
-      curl
-      zip
-      unzip
       fastfetch
 
       # Kotlin
@@ -65,7 +61,6 @@
       nasm
 
       # Python
-      python3
       pipenv
 
       # PHP
