@@ -1,7 +1,7 @@
 { config, ... }:
 
 {
-  # services.tailscale.enable = true;
+  services.tailscale.enable = true;
   services.resolved.enable = true;
 
   networking = {
@@ -10,8 +10,8 @@
 
     firewall = {
       allowPing = false;
-      trustedInterfaces = [ config.services.tailscale.interfaceName ];
-      allowedUDPPorts = [ config.services.tailscale.port ];
+      # trustedInterfaces = [ config.services.tailscale.interfaceName ];
+      # allowedUDPPorts = [ config.services.tailscale.port ];
     };
     networkmanager = {
       enable = true;

@@ -83,7 +83,6 @@
           ./common.nix
           ./hardware-configuration.nix
           ./audio.nix
-          ./bootloader.nix
           ./nix-settings.nix
           ./gc.nix
           ./linux-kernel.nix
@@ -102,9 +101,9 @@
           ./security.nix
           ./ai.nix
           ./xlib.nix
+          # ./usb.nix
 
           # ./hyprland.nix
-          # ./usb.nix
           # ./firejail.nix
         ];
       };

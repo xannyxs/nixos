@@ -21,15 +21,11 @@
     shell = pkgs.zsh;
 
     packages = with pkgs; [
-      # Check firejail.nix
-      # mixxx
-
       prismlauncher
       (pkgs.writeShellScriptBin "obs" ''
         export GDK_BACKEND=x11
           ${pkgs.obs-studio}/bin/obs "$@"
       '')
-      # davinci-resolve-studio
     ];
   };
 
