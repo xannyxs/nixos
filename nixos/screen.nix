@@ -4,9 +4,9 @@ let
   xsct-auto = pkgs.writeShellScript "xsct-auto" ''
     hour=$(date +%H)
     if [ "$hour" -ge 6 ] && [ "$hour" -lt 20 ]; then
-      ${pkgs.xsct}/bin/xsct 5500
+      ${pkgs.xsct}/bin/xsct 0
     else
-      ${pkgs.xsct}/bin/xsct 3700
+      ${pkgs.xsct}/bin/xsct 4000 
     fi
   '';
 in
