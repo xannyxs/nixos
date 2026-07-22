@@ -22,6 +22,18 @@ in
     };
   };
 
+  systemd.user.services.xsct-resume = {
+    description = "Restore screen color temperature after sleep";
+    wantedBy = [ "sleep.target" ];
+    after = [ "sleep.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "yes";
+      ExecStart = "${pkgs.coreutils}/bin/true";
+      ExecStop = "${xsct-auto}";
+    };
+  };
+
   systemd.user.timers.xsct-auto = {
     description = "Hourly screen color temperature update";
     wantedBy = [ "timers.target" ];
