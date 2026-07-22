@@ -1,26 +1,38 @@
 { pkgs, ... }:
 
+let
+  xsct-auto = pkgs.writeShellScript "xsct-auto" ''
+    hour=$(date +%H)
+    if [ "$hour" -ge 6 ] && [ "$hour" -lt 20 ]; then
+      ${pkgs.xsct}/bin/xsct 5500
+    else
+      ${pkgs.xsct}/bin/xsct 3700
+    fi
+  '';
+in
 {
-  services.geoclue2.enable = true;
   services.autorandr.enable = true;
 
-  location.provider = "geoclue2";
-
-  services.redshift = {
-    enable = true;
-    brightness = {
-      day = "1";
-      night = "1";
-    };
-    temperature = {
-      day = 5500;
-      night = 3700;
+  systemd.user.services.xsct-auto = {
+    description = "Set screen color temperature based on time of day";
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${xsct-auto}";
     };
   };
 
-  # programs.light.enable = true;
+  systemd.user.timers.xsct-auto = {
+    description = "Hourly screen color temperature update";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "hourly";
+      Persistent = true;
+    };
+  };
 
   environment.systemPackages = with pkgs; [
+    xsct
     brightnessctl
     nwg-displays
     arandr
