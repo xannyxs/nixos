@@ -17,6 +17,7 @@
 
     lsm = lib.mkForce [
       "landlock"
+      "apparmor"
       "yama"
       "bpf"
       "lockdown"
