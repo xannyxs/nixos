@@ -7,6 +7,22 @@
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
+  hardware.keyboard.qmk.enable = true;
+
+  programs.firejail = {
+    enable = true;
+    wrappedBinaries = {
+      mpv = {
+        executable = "${pkgs.mpv}/bin/mpv";
+        profile = "${pkgs.firejail}/etc/firejail/mpv.profile";
+        extraArgs = [
+          "--net=none"
+          "--noroot"
+        ];
+      };
+    };
+  };
+
   services.usbmuxd.enable = true; # tmp
   security.polkit.enable = true;
   services.dbus.enable = true;
@@ -24,7 +40,13 @@
     enable = true;
   };
 
+  programs.localsend = {
+    enable = false;
+    openFirewall = true;
+  };
+
   environment.systemPackages = with pkgs; [
+    corefonts
     hunspell
     hunspellDicts.nl_nl
     hunspellDicts.en_GB-ize
@@ -47,5 +69,6 @@
     spice # VM Network
     qemu
     niv
+    parted
   ];
 }

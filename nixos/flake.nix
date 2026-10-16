@@ -5,7 +5,6 @@
     nixpkgs.url = "nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
-
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs = {
@@ -46,6 +45,8 @@
         system = "x86_64-linux";
         specialArgs = { inherit st-src dwm-src dmenu-src; };
         modules = [
+          nixos-hardware.nixosModules.framework-16-7040-amd
+
           lanzaboote.nixosModules.lanzaboote
           (
             { pkgs, lib, ... }:
@@ -63,12 +64,12 @@
                 enable = true;
                 pkiBundle = "/var/lib/sbctl";
                 measuredBoot = {
-                  enable = true;
-                  pcrs = [
-                    0
-                    4
-                    7
-                  ];
+                  enable = false;
+                  # pcrs = [
+                  #   0
+                  #   4
+                  #   7
+                  # ];
                 };
 
               };
@@ -101,6 +102,8 @@
           ./security.nix
           ./ai.nix
           ./xlib.nix
+          ./tts.nix
+          ./syncthing.nix
           # ./usb.nix
 
           # ./hyprland.nix

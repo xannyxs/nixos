@@ -14,6 +14,7 @@
     "ucsi_acpi.debug=1"
     "usbcore.autosuspend=-1"
     "usbhid.mousepoll=0"
+    "amdgpu.abmlevel=1"
   ];
 
   boot.initrd.kernelModules = [
@@ -36,7 +37,6 @@
     clinfo
     mesa
     tpm2-tss
-    firejail
     tcpdump
   ];
 
