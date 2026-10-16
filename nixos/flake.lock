@@ -15,40 +15,6 @@
         "type": "github"
       }
     },
-    "dmenu-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1783159176,
-        "narHash": "sha256-2FuZlUb+7XmQYeTFXJYdleAXqL/obccYFo93PZhMjLw=",
-        "ref": "master",
-        "rev": "7083ce84e700facf721da058b2a07d6c3107ddda",
-        "revCount": 629,
-        "type": "git",
-        "url": "https://codeberg.org/xannyx/dmenu.git"
-      },
-      "original": {
-        "ref": "master",
-        "type": "git",
-        "url": "https://codeberg.org/xannyx/dmenu.git"
-      }
-    },
-    "dwm-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1783532296,
-        "narHash": "sha256-X236jWHA8lsV8W6mkdjyNTfhWdR25X65//au6AXN1lU=",
-        "ref": "master",
-        "rev": "3c907928878f91c185f4a53f2ed815a3a2e7e729",
-        "revCount": 1763,
-        "type": "git",
-        "url": "https://codeberg.org/xannyx/dwm.git"
-      },
-      "original": {
-        "ref": "master",
-        "type": "git",
-        "url": "https://codeberg.org/xannyx/dwm.git"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -158,11 +124,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1791883866,
-        "narHash": "sha256-MdqpFMXQX2Vz1KgQ516wgEo4eiFzm3rEMyE3Qh4wyLA=",
-        "rev": "a033e66ab94a6bedf2c3d58d93a36319d3cbbbaf",
+        "lastModified": 1792030654,
+        "narHash": "sha256-Xbsbp5m0RdCNpPFtWb7FGquw42pDJEMPtlrHownUBc8=",
+        "rev": "26f4107e47e3ad0ffd0db220469ba83b6f6d96e8",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.11829.a033e66ab94a/nixexprs.tar.zst"
+        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.11985.26f4107e47e3/nixexprs.tar.zst"
       },
       "original": {
         "id": "nixpkgs",
@@ -195,8 +161,6 @@
     },
     "root": {
       "inputs": {
-        "dmenu-src": "dmenu-src",
-        "dwm-src": "dwm-src",
         "lanzaboote": "lanzaboote",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",

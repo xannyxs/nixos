@@ -29,7 +29,6 @@
     "spec_store_bypass_disable=on"
     "mds=full,nosmt"
     "mitigations=auto"
-    "ucsi_acpi.debug=1"
     "usbcore.autosuspend=-1"
     "usbhid.mousepoll=0"
     "amdgpu.abmlevel=1"

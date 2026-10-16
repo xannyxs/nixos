@@ -19,9 +19,6 @@
 
     # Not in use, kept to switch back to:
     # ../../modules/hardware/usbguard.nix
-    # ../../modules/desktop/gnome.nix
-    # ../../modules/desktop/hyprland.nix
-    # ../../modules/desktop/theme.nix
   ];
 
   nixpkgs.overlays = [ inputs.self.overlays.default ];

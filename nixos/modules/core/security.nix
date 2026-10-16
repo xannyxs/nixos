@@ -5,8 +5,12 @@
     audit.enable = true;
     auditd.enable = true;
 
-    sudo.enable = true;
-    sudo.wheelNeedsPassword = true;
+    sudo.enable = false;
+    sudo-rs = {
+      enable = true;
+      execWheelOnly = true;
+      wheelNeedsPassword = true;
+    };
 
     polkit.enable = true;
 
@@ -26,7 +30,23 @@
     ];
   };
 
-  services.fail2ban.enable = true;
+  boot.kernel.sysctl = {
+    # Hide kernel pointers and logs from unprivileged users
+    "kernel.kptr_restrict" = 2;
+    "kernel.dmesg_restrict" = 1;
+
+    # BPF
+    "kernel.unprivileged_bpf_disabled" = 1;
+    "net.core.bpf_jit_harden" = 2;
+
+    # Ignore ICMP redirects, don't send them
+    "net.ipv4.conf.all.accept_redirects" = 0;
+    "net.ipv4.conf.default.accept_redirects" = 0;
+    "net.ipv6.conf.all.accept_redirects" = 0;
+    "net.ipv6.conf.default.accept_redirects" = 0;
+    "net.ipv4.conf.all.send_redirects" = 0;
+    "net.ipv4.conf.default.send_redirects" = 0;
+  };
 
   programs.firejail = {
     enable = true;

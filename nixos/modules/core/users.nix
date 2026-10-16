@@ -12,7 +12,6 @@
       "audio"
       "tss"
       "docker"
-      "disk"
       "usb"
       "kvm"
       "libvirtd"
