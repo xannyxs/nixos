@@ -1,7 +1,9 @@
 { pkgs, ... }:
 
 {
-  # Select internationalisation properties.
+  time.timeZone = "Europe/Paris";
+  services.timesyncd.enable = true;
+
   services.xserver = {
     xkb.layout = "us";
     xkb.variant = "";
@@ -10,10 +12,6 @@
   i18n.supportedLocales = [
     "en_US.UTF-8/UTF-8"
   ];
-
-  # time.timeZone = "Europe/Paris";
-  # services.timesyncd.enable = true;
-  # services.localtimed.enable = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -29,10 +27,13 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  # Spell checking
   environment.systemPackages = with pkgs; [
     nuspell
     hyphen
     hunspell
     hunspellDicts.en_US
+    hunspellDicts.en_GB-ize
+    hunspellDicts.nl_nl
   ];
 }

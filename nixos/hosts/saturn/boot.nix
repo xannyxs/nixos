@@ -1,6 +1,24 @@
 { pkgs, lib, ... }:
 
 {
+  # Secure Boot
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.initrd.systemd.enable = true;
+  boot.lanzaboote.configurationLimit = 8;
+
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+    measuredBoot = {
+      enable = false;
+      # pcrs = [
+      #   0
+      #   4
+      #   7
+      # ];
+    };
+  };
+
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
 
   boot.kernelParams = [
@@ -21,24 +39,9 @@
     "tpm_crb"
   ];
 
-  services.xserver.videoDrivers = [ "amdgpu" ];
-
-  nix.settings.allowed-users = [ "@wheel" ];
-  nix.settings.trusted-users = [
-    "root"
-    "@wheel"
-  ];
-
   environment.systemPackages = with pkgs; [
-    policycoreutils
-    lsof
-    iftop
-    nmap
-    clinfo
-    mesa
+    sbctl
+    tpm2-tools
     tpm2-tss
-    tcpdump
   ];
-
-  services.fail2ban.enable = true;
 }

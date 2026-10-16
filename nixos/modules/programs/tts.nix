@@ -1,65 +1,14 @@
 { lib, pkgs, ... }:
 let
-
   voice = "af_heart";
   chunkChars = 400;
-
-  ttscpp = pkgs.stdenv.mkDerivation {
-    pname = "tts-cpp";
-    version = "0-unstable-2025-10-05";
-
-    src = pkgs.fetchFromGitHub {
-      owner = "mmwillet";
-      repo = "TTS.cpp";
-      rev = "c04c77ab7575adf48c8af5a16e3bea179cba7dbb";
-      hash = "sha256-hIvYygxIjfC2zh2pLbwZT5YDeBJH4JQJXgMF+Q3pUEA=";
-      fetchSubmodules = true; # this gets the patched ggml
-    };
-
-    nativeBuildInputs = [
-      pkgs.cmake
-      pkgs.pkg-config
-    ];
-    buildInputs = [
-      pkgs.SDL2
-      pkgs.espeak-ng
-    ];
-
-    postPatch =
-      let
-        oldPath = "\${ESPEAK_LIBDIR}/espeak-ng-data";
-        newPath = "${pkgs.espeak-ng}/share/espeak-ng-data";
-      in
-      ''
-        substituteInPlace CMakeLists.txt \
-          --replace-fail '${oldPath}' '${newPath}'
-      '';
-
-    cmakeFlags = [
-      "-DBUILD_SHARED_LIBS=OFF"
-      "-DGGML_NATIVE=ON"
-    ];
-
-    # GGML must use -march=native. Nixpkgs removes it by default.
-    NIX_ENFORCE_NO_NATIVE = false;
-
-    enableParallelBuilding = true;
-
-    installPhase = ''
-      runHook preInstall
-      install -Dm755 bin/tts-cli $out/bin/tts-cli
-      runHook postInstall
-    '';
-
-    meta.mainProgram = "tts-cli";
-  };
 
   kokoro = pkgs.fetchurl {
     url = "https://huggingface.co/mmwillet2/Kokoro_GGUF/resolve/main/Kokoro_espeak.gguf";
     hash = "sha256-c+PWV8UtbYNZoyPakGwaHdWujxVaN8slvLfpNT440jA=";
   };
 
-  tts-cli = lib.getExe ttscpp;
+  tts-cli = lib.getExe pkgs.tts-cpp;
 
   readChunk = pkgs.writeShellApplication {
     name = "tts-read-chunk";
@@ -166,7 +115,7 @@ let
 in
 {
   environment.systemPackages = [
-    ttscpp
+    pkgs.tts-cpp
     readArticle
     ttsBench
   ];

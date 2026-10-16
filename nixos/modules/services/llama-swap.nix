@@ -1,62 +1,6 @@
 { pkgs, lib, ... }:
 
 let
-  optimizedLlamaCpp =
-    (pkgs.llama-cpp.override {
-      blasSupport = true;
-      vulkanSupport = false;
-      rocmSupport = false;
-      cudaSupport = false;
-      metalSupport = false;
-    }).overrideAttrs
-      (oldAttrs: rec {
-        version = "10758";
-        npmDepsHash = "sha256-2Q7XhaLAArmviOLdQsNbYTfdyDE5pW9lR26cRHEVl9k=";
-        buildInputs =
-          (oldAttrs.buildInputs or [ ])
-          ++ (with pkgs.rocmPackages; [
-            clr
-            hipblas
-            rocblas
-            rocsolver
-            rocm-device-libs
-            rocm-runtime
-            rocminfo
-            rocwmma
-          ]);
-        src = pkgs.fetchFromGitHub {
-          owner = "ggml-org";
-          repo = "llama.cpp";
-          tag = "b${version}";
-          hash = "sha256-XVlsIrsGEx/cE4NRDrbuHznXPvNqSIFMi/fTm/QdlQY=";
-          leaveDotGit = true;
-          postFetch = ''
-            git -C "$out" rev-parse --short HEAD > $out/COMMIT
-          '';
-        };
-        cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
-          "-DGGML_NATIVE=ON"
-          "-DGGML_HIP=ON"
-          "-DGGML_HIP_ROCWMMA_FATTN=ON"
-          "-DGPU_TARGETS=gfx1102"
-          "-DCMAKE_HIP_COMPILER=${pkgs.rocmPackages.llvm.clang}/bin/clang"
-
-          "-DLLAMA_BUILD_SERVER=ON"
-          "-DLLAMA_BUILD_TESTS=OFF"
-          "-DLLAMA_BUILD_EXAMPLES=OFF"
-          "-DLLAMA_BUILD_UI=OFF"
-          "-DLLAMA_BUILD_WEBUI=OFF"
-        ];
-        env = (oldAttrs.env or { }) // {
-          ROCM_PATH = "${pkgs.rocmPackages.clr}";
-          HIP_DEVICE_LIB_PATH = "${pkgs.rocmPackages.rocm-device-libs}/amdgcn/bitcode";
-        };
-        preConfigure = ''
-          export NIX_ENFORCE_NO_NATIVE=0
-          ${oldAttrs.preConfigure or ""}
-        '';
-      });
-
   models = {
     qwen35-9b = pkgs.fetchurl {
       url = "https://huggingface.co/unsloth/Qwen3.5-9B-MTP-GGUF/resolve/main/Qwen3.5-9B-IQ4_NL.gguf";
@@ -172,7 +116,7 @@ let
     models = lib.mapAttrs (name: p: {
       cmd = lib.concatStringsSep " " (
         [
-          "${optimizedLlamaCpp}/bin/llama-server"
+          "${pkgs.llama-cpp-gfx1102}/bin/llama-server"
           "-m"
           "${p.model}"
           "--port"
@@ -196,19 +140,6 @@ let
       );
     }) modelProfiles;
   };
-
-  llamaSwapPkg = pkgs.runCommand "llama-swap" { buildInputs = [ pkgs.gnutar ]; } ''
-    mkdir -p $out/bin
-    mkdir -p temp_extract
-    tar -xzf ${
-      pkgs.fetchurl {
-        url = "https://github.com/mostlygeek/llama-swap/releases/download/v251/llama-swap_251_linux_amd64.tar.gz";
-        hash = "sha256-hb1/Ix9Xd/9ri3h6eU+CVni40ELNRIQERRaljs3HYis=";
-      }
-    } -C temp_extract
-    find temp_extract -type f -name "llama-swap" -exec cp {} $out/bin/ \;
-    chmod +x $out/bin/llama-swap
-  '';
 in
 {
   environment.etc."llama-swap/config.yaml" = {
@@ -228,8 +159,8 @@ in
   # };
 
   environment.systemPackages = [
-    llamaSwapPkg
-    optimizedLlamaCpp
+    pkgs.llama-swap-bin
+    pkgs.llama-cpp-gfx1102
 
     pkgs.uv
     pkgs.amdgpu_top
@@ -244,7 +175,7 @@ in
       Type = "simple";
       User = "xannyx";
       Group = "users";
-      ExecStart = "${llamaSwapPkg}/bin/llama-swap --config /etc/llama-swap/config.yaml --listen 127.0.0.1:9292 --watch-config";
+      ExecStart = "${pkgs.llama-swap-bin}/bin/llama-swap --config /etc/llama-swap/config.yaml --listen 127.0.0.1:9292 --watch-config";
       Restart = "always";
       RestartSec = 10;
     };

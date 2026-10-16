@@ -5,7 +5,6 @@
   services.resolved.enable = true;
 
   networking = {
-    hostName = "saturn";
     nftables.enable = true;
 
     firewall = {

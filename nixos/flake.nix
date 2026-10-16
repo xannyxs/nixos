@@ -16,99 +16,32 @@
       url = "git+https://codeberg.org/xannyx/st.git?ref=master";
       flake = false;
     };
-    dwm-src = {
-      url = "git+https://codeberg.org/xannyx/dwm.git?ref=master";
-      flake = false;
-    };
-    dmenu-src = {
-      url = "git+https://codeberg.org/xannyx/dmenu.git?ref=master";
-      flake = false;
-    };
   };
 
   outputs =
+    { self, nixpkgs, ... }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system}.extend self.overlays.default;
+    in
     {
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      home-manager,
-      lanzaboote,
-      nixos-hardware,
+      overlays.default = import ./pkgs;
 
-      st-src,
-      dwm-src,
-      dmenu-src,
-      ...
-    }:
-    {
+      packages.${system} = {
+        inherit (pkgs)
+          llama-cpp-gfx1102
+          llama-swap-bin
+          routed-gothic
+          tts-cpp
+          ;
+      };
+
+      formatter.${system} = pkgs.nixfmt-tree;
+
       nixosConfigurations.saturn = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit st-src dwm-src dmenu-src; };
-        modules = [
-          nixos-hardware.nixosModules.framework-16-7040-amd
-
-          lanzaboote.nixosModules.lanzaboote
-          (
-            { pkgs, lib, ... }:
-            {
-              environment.systemPackages = with pkgs; [
-                sbctl
-                tpm2-tools
-              ];
-
-              boot.loader.systemd-boot.enable = lib.mkForce false;
-              boot.initrd.systemd.enable = true;
-              boot.lanzaboote.configurationLimit = 8;
-
-              boot.lanzaboote = {
-                enable = true;
-                pkiBundle = "/var/lib/sbctl";
-                measuredBoot = {
-                  enable = false;
-                  # pcrs = [
-                  #   0
-                  #   4
-                  #   7
-                  # ];
-                };
-
-              };
-            }
-          )
-
-          ./modules/suckless.nix
-          ./xfce.nix
-
-          ./gpu.nix
-          ./cpu.nix
-          ./common.nix
-          ./hardware-configuration.nix
-          ./audio.nix
-          ./nix-settings.nix
-          ./gc.nix
-          ./linux-kernel.nix
-          ./screen.nix
-          ./internationalisation.nix
-          ./fonts.nix
-          ./services.nix
-          ./env.nix
-          ./bluetooth.nix
-          ./networking.nix
-          ./firewall.nix
-          ./users.nix
-          ./virtualisation.nix
-          ./term-utils.nix
-          ./time.nix
-          ./security.nix
-          ./ai.nix
-          ./xlib.nix
-          ./tts.nix
-          ./syncthing.nix
-          # ./usb.nix
-
-          # ./hyprland.nix
-          # ./firejail.nix
-        ];
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/saturn ];
       };
     };
 }

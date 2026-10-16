@@ -3,14 +3,6 @@
   programs.virt-manager.enable = true;
   boot.extraModprobeConfig = "options kvm_amd nested=1";
 
-  # networking.bridges = {
-  #   br0.interfaces = [ "eth0" ];
-  # };
-  #
-  # networking.interfaces.br0 = {
-  #   useDHCP = true;
-  # };
-
   virtualisation = {
     libvirtd = {
       enable = true;
@@ -27,7 +19,10 @@
   };
 
   environment.systemPackages = with pkgs; [
+    qemu
     qemu_full
+    quickemu # VM Launcher
+    spice # VM Network
     virtiofsd
 
     # SPICE-related packages for virtual machine support
@@ -38,7 +33,6 @@
     # Docker
     docker-compose
     docker-client
-    lazydocker
   ];
 
   virtualisation.spiceUSBRedirection.enable = true;

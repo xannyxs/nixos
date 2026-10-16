@@ -1,6 +1,26 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
+  # CPU
+  hardware.cpu.amd.updateMicrocode = true;
+  boot.kernelParams = [ "amd_pstate=active" ];
+
+  # GPU
+  hardware = {
+    graphics = with pkgs; {
+      enable = true;
+      enable32Bit = true;
+      extraPackages = [
+        rocmPackages.clr
+        mesa
+      ];
+    };
+  };
+
+  services.xserver.videoDrivers = [ "amdgpu" ];
+
+  services.power-profiles-daemon.enable = true;
+
   # services.udev.extraRules = ''
   #   # Disable wake from keyboard (assuming AT Keyboard interface)
   #   ACTION=="add", SUBSYSTEM=="serio", DRIVERS=="atkbd", ATTR{power/wakeup}="disabled"
@@ -12,11 +32,12 @@
   #   # ACTION=="add", SUBSYSTEM=="acpi", DRIVERS=="button", ATTRS{hid}=="PNP0C0D", ATTR{power/wakeup}="disabled"
   # '';
 
-  nixpkgs.config.allowUnfree = true;
-  services.printing.enable = true;
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
+  environment.systemPackages = with pkgs; [
+    mesa
+    vulkan-tools
+    clinfo
+    powertop
+    nvtopPackages.amd
+    radeontop
+  ];
 }
